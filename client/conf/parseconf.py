@@ -12,14 +12,14 @@ import ConfigParser
 
 
 class ParseConf:
-    confile = ""
-    hmaster = {}
-    hregion = {}
-    thrift2 = {}
+    confile  = ""
+    hmaster  = {}
+    hregion  = {}
+    thrift2  = {}
+    conflist = {}
 
     def __init__(self, confile):
         self.confile = confile
-        print self.confile
 
     def parse(self):
         if self.__is_file_exist(self.confile):
@@ -29,14 +29,17 @@ class ParseConf:
             self.__set_conf("hregion", conf, self.hregion)
             self.__set_conf("thrift2", conf, self.thrift2)
 
-            print self.hmaster
-            print self.hregion
-            print self.thrift2
-
     def __set_conf(self, sections, conf, confdict):
         if conf.options(sections):
             for attr in conf.options(sections):
-                confdict[attr] = conf.get(sections, attr)
+                #confdict[attr] = conf.get(sections, attr)
+                attrarr = conf.get(sections, attr).split(",")
+                tmparr = []
+                for k in attrarr:
+                    tmparr.append(k.strip())
+
+                confdict[attr] = tmparr
+
 
     def __is_file_exist(self, filename):
         isexist = False
@@ -47,7 +50,13 @@ class ParseConf:
             os._exit(2)
         return isexist
 
-    def get(self, key):
-        pass
+    def getHmaster(self):
+        return self.hmaster
+
+    def getHregion(self):
+        return self.hregion
+
+    def getThrift2(self):
+        return self.thrift2
 
 
