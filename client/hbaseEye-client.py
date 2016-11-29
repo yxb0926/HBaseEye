@@ -28,7 +28,6 @@ def main():
     threadRegion.daemon = True
     threadRegion.start()
     threadRegion.join()
-    print "end"
     
 
 if __name__ == "__main__":
