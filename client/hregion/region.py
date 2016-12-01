@@ -68,6 +68,7 @@ class Region(multiprocessing.Process):
 	    WAL_v2           = self._getValue(url, tag['WAL'])
 
             if (regionServer_v1 is None or regionServer_v2 is None):
+	        print "xx"
 	        pass
 	    else:
                 self.regionServer(regionServer_v1, regionServer_v2)
@@ -122,9 +123,6 @@ class Region(multiprocessing.Process):
 
     def _getValue(self, url, tag):
         url = url + tag
-	data = {}
-	data['beans'] = []
-	data['beans'].append(None)
 
 	try:
             socket = urllib2.urlopen(url)
@@ -132,12 +130,19 @@ class Region(multiprocessing.Process):
 	    data = json.loads(v)
 	    socket.close()
         
-	    if 'benas' not in data.keys():
+	    if 'beans' not in data.keys():
+	        data = {}
+	        data['beans'] = []
+	        data['beans'].append(None)
+	    if not len(data['beans']):
 	        data = {}
 	        data['beans'] = []
 	        data['beans'].append(None)
 
 	except urllib2.HTTPError, e:
 	    print url, e.code, "Request failed!"
+	    data = {}
+	    data['beans'] = []
+	    data['beans'].append(None)
 
 	return data['beans'][0]
