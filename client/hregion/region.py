@@ -107,7 +107,7 @@ class Region(multiprocessing.Process):
         t = int(1000*round(time.time()))
 	hostname = v1['tag.Hostname']
 	
-	print t, hostname, v1['MemNonHeapUsedM']
+	#print t, hostname, v1['MemNonHeapUsedM']
 
     def WAL(self, v1, v2):
         pass
@@ -122,16 +122,22 @@ class Region(multiprocessing.Process):
 
     def _getValue(self, url, tag):
         url = url + tag
-	data = None
+	data = {}
+	data['beans'] = []
+	data['beans'].append(None)
+
 	try:
             socket = urllib2.urlopen(url)
 	    v = socket.read()
 	    data = json.loads(v)
 	    socket.close()
-            	
+        
+	    if 'benas' not in data.keys():
+	        data = {}
+	        data['beans'] = []
+	        data['beans'].append(None)
+
 	except urllib2.HTTPError, e:
 	    print url, e.code, "Request failed!"
-	    data['beans'][0] = None
 
 	return data['beans'][0]
-
