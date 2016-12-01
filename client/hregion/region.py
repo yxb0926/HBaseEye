@@ -8,7 +8,6 @@ Email:  yxb0926@163.com
 
 import multiprocessing
 from multiprocessing import Process
-import multiprocessing.pool
 import sys
 import util.utils
 import os
@@ -16,6 +15,8 @@ import time
 import serverTag
 import urllib2
 import json
+from pymongo import *
+
 
 '''
 class RegionMeta(threading.Thread):
@@ -25,69 +26,79 @@ class RegionMeta(threading.Thread):
 
 
 class Region(multiprocessing.Process):
-    processId   = ""
-    processName = ""
-    hregionConf = {}
+    hregionConf = None
     interval    = 10
+    mongodbConf = None
+    serverTag   = None
     
-    def __init__(self, processId, name, hregionConf):
+    def __init__(self, hregionConf, mongodbconf):
         multiprocessing.Process.__init__(self)
-        self.processId   = processId
-	self.processName = name
 	self.hregionConf = hregionConf
+	self.mongodbConf = mongodbconf
 	self.interval    = (int)(hregionConf['interval'][0])
-	#util.utils.SetPname(self.processName)
-
+	self.serverTag = serverTag.tagdict
 
     def run(self):
-        pool = multiprocessing.Pool(4)
-	plist = []
 	p = None
+	plist = []
 	for server in self.hregionConf['serverlist']:
-	    #tmplist = []
-	    #tmplist = [server, serverTag.HBase_RegionServer_Server_Tag, self.interval] 
-	    #plist.append(tmplist)
-	    p = multiprocessing.Process(target=req, args=(server, serverTag.HBase_RegionServer_Server_Tag, self.interval,))
-
+	    p = multiprocessing.Process(target=self.request,\
+	        args=(server, self.serverTag, self.interval,))
 	    p.start()
-	p.join()
-	#pool.map(req,plist)
-	#pool.close()
-	#pool.join()
-
-    def getQps(self):
-        pass
-
-
+	    plist.append(p)
+	for x in plist:
+	    x.join()
 
     def request(self, server, tag, interval):
         while True:
 	    kpidata = {}
+	    mydict  = {}
 	    url  = "http://"
 	    url += server
 	    url += "/jmx?qry="
-	    v1    = self.getValue(url, tag)
+
+	    regionServer_v1 = self._getValue(url, tag['RegionServer'])
+	    jvmMetrics_v1   = self._getValue(url, tag['JvmMetrics'])
+	    WAL_v1          = self._getValue(url, tag['WAL'])
+
 	    time.sleep(self.interval)
-	    v2    = self.getValue(url, tag)
-	    kpidata['read_qps']  = int(round(v2['readRequestCount'] - v1['readRequestCount'])/interval)
-	    kpidata['write_qps'] = int(round(v2['writeRequestCount'] - v1['writeRequestCount'])/interval)
-	    
-	    print kpidata
 
+	    regionServer_v2 = self._getValue(url, tag['RegionServer'])
+	    #jvmMetrics_v2   = self._getValue(url, tag['JvmMetrics'])
+	    WAL_v2          = self._getValue(url, tag['WAL'])
 
-    def __qps(self, server, tag, interval):
-        url  = "http://"
-	url += server
-	url += "/jmx?qry="
+            self.regionServer(regionServer_v1, regionServer_v2)
+	    self.JvmMetrics(jvmMetrics_v1)
+	    self.WAL(WAL_v1, WAL_v2)
 
-        v1 = self.__getValue(url, tag)
-	time.sleep(interval)
-	#v2 = self.__getValue(url, tag)
-	#qps = (v2-v1)/interval
+    def regionServer(self, v1, v2):
+        t = int(1000*round(time.time()))
+	hostname = v2['tag.Hostname']
 	
-	return v1
+	print t, hostname
 
-    def getValue(self, url, tag):
+
+    def JvmMetrics(self, v1):
+        t = int(1000*round(time.time()))
+	hostname = v1['tag.Hostname']
+	
+	print t, hostname, v1['MemNonHeapUsedM']
+
+    def WAL(self, v1, v2):
+        pass
+
+    def _saveMongo(self, servername, kpidata):
+        client = MongoClient(self.mongodbConf['ip'][0], int(self.mongodbConf['port'][0]))
+	db = client.hbasestat
+	collection = db.stat
+	mydict = {}
+	mydict['servername'] = servername
+	mydict['timestamp']  = int(round(time.time()))
+	mydict['kpi']        = kpidata
+	collection.insert(mydict)
+	
+
+    def _getValue(self, url, tag):
         url = url + tag
         socket = urllib2.urlopen(url)
 	v = socket.read()
@@ -96,20 +107,3 @@ class Region(multiprocessing.Process):
 
 	return data['beans'][0]
 
-
-
-def req(server,tag,interval):
-    while True:
-        print server
-	time.sleep(2)
-        #kpidata = {}
-	#url  = "http://"
-	#url += server
-	#url += "/jmx?qry="
-	#v1    = self.getValue(url, tag)
-	#time.sleep(self.interval)
-	#v2    = self.getValue(url, tag)
-	#kpidata['read_qps']  = int(round(v2['readRequestCount'] - v1['readRequestCount'])/interval)
-	#kpidata['write_qps'] = int(round(v2['writeRequestCount'] - v1['writeRequestCount'])/interval)
-	#   
-	#print kpidata

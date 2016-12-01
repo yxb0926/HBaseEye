@@ -16,6 +16,7 @@ class ParseConf:
     hmaster  = {}
     hregion  = {}
     thrift2  = {}
+    mongodb  = {}
     conflist = {}
 
     def __init__(self, confile):
@@ -28,6 +29,7 @@ class ParseConf:
             self.__set_conf("hmaster", conf, self.hmaster)
             self.__set_conf("hregion", conf, self.hregion)
             self.__set_conf("thrift2", conf, self.thrift2)
+	    self.__set_conf("mongodb", conf, self.mongodb)
 
     def __set_conf(self, sections, conf, confdict):
         if conf.options(sections):
@@ -58,5 +60,8 @@ class ParseConf:
 
     def getThrift2(self):
         return self.thrift2
+
+    def getMongodb(self):
+        return self.mongodb
 
 

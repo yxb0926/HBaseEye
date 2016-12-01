@@ -18,12 +18,13 @@ import util.utils
 
 def main():
     confile = os.getcwd() + "/conf/client.conf"
+
     parseConf = conf.parseconf.ParseConf(confile)
     parseConf.parse()
 
     parseConf.getHregion()
 
-    threadRegion = hregion.region.Region(10000, "hregion", parseConf.getHregion())
+    threadRegion = hregion.region.Region(parseConf.getHregion(), parseConf.getMongodb())
     
     threadRegion.daemon = True
     threadRegion.start()
