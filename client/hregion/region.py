@@ -139,10 +139,12 @@ class Region(multiprocessing.Process):
 	        data['beans'] = []
 	        data['beans'].append(None)
 
-	except urllib2.HTTPError, e:
-	    print url, e.code, "Request failed!"
+	except:
+	    print "Error!"
 	    data = {}
 	    data['beans'] = []
 	    data['beans'].append(None)
+	finally:
+	    pass
 
 	return data['beans'][0]
