@@ -63,19 +63,44 @@ class Region(multiprocessing.Process):
 
 	    time.sleep(self.interval)
 
-	    regionServer_v2 = self._getValue(url, tag['RegionServer'])
-	    #jvmMetrics_v2   = self._getValue(url, tag['JvmMetrics'])
-	    WAL_v2          = self._getValue(url, tag['WAL'])
+	    regionServer_v2  = self._getValue(url, tag['RegionServer'])
+	    jvmMetrics_v2   = self._getValue(url, tag['JvmMetrics'])
+	    WAL_v2           = self._getValue(url, tag['WAL'])
 
-            self.regionServer(regionServer_v1, regionServer_v2)
-	    self.JvmMetrics(jvmMetrics_v1)
-	    self.WAL(WAL_v1, WAL_v2)
+            if (regionServer_v1 is None or regionServer_v2 is None):
+	        pass
+	    else:
+                self.regionServer(regionServer_v1, regionServer_v2)
 
+            if (jvmMetrics_v1 is None or jvmMetrics_v2 is None):
+	        pass
+	    else:
+	        self.JvmMetrics(jvmMetrics_v1)
+		
+            if (WAL_v1 is None or WAL_v2 is None):
+	        pass
+	    else:
+	        self.WAL(WAL_v1, WAL_v2)
+
+    #
+    # qps,tps统计入库
+    #
     def regionServer(self, v1, v2):
         t = int(1000*round(time.time()))
-	hostname = v2['tag.Hostname']
-	
-	print t, hostname
+	mydict = {}
+	mydict['timestamp'] = t
+	mydict['hostname'] = v2['tag.Hostname']
+	mydict['totalRequestCount'] = [t,v2['totalRequestCount']]
+	mydict['writeRequestCount'] = [t,v2['writeRequestCount']]
+	mydict['readRequestCount']  = [t,v2['readRequestCount']]
+	mydict['qps']   = [t, round((v2['totalRequestCount'] - v1['totalRequestCount'])/self.interval)]
+	mydict['write'] = [t, round((v2['writeRequestCount'] - v1['writeRequestCount'])/self.interval)]
+	mydict['read']  = [t, round((v2['readRequestCount'] - v1['readRequestCount'])/self.interval)]
+        	
+	#
+	#  保存tps、qps 等数据到表regonRequest中
+	#
+	self._saveMongo(mydict, 'regonRequest')
 
 
     def JvmMetrics(self, v1):
@@ -87,23 +112,26 @@ class Region(multiprocessing.Process):
     def WAL(self, v1, v2):
         pass
 
-    def _saveMongo(self, servername, kpidata):
+    def _saveMongo(self, data, tablename):
         client = MongoClient(self.mongodbConf['ip'][0], int(self.mongodbConf['port'][0]))
 	db = client.hbasestat
-	collection = db.stat
-	mydict = {}
-	mydict['servername'] = servername
-	mydict['timestamp']  = int(round(time.time()))
-	mydict['kpi']        = kpidata
-	collection.insert(mydict)
+	collection = db[tablename]
+	collection.insert(data)
+	client.close()
 	
 
     def _getValue(self, url, tag):
         url = url + tag
-        socket = urllib2.urlopen(url)
-	v = socket.read()
-	data = json.loads(v)
-	socket.close()
+	data = None
+	try:
+            socket = urllib2.urlopen(url)
+	    v = socket.read()
+	    data = json.loads(v)
+	    socket.close()
+            	
+	except urllib2.HTTPError, e:
+	    print url, e.code, "Request failed!"
+	    data['beans'][0] = None
 
 	return data['beans'][0]
 
