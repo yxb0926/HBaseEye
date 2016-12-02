@@ -83,11 +83,13 @@ class Region(multiprocessing.Process):
 	        self.WAL(WAL_v1, WAL_v2)
 
     #
-    # qps,tps统计入库
+    # qps,tps...统计入库
     #
     def regionServer(self, v1, v2):
+	#
+	#  保存tps、qps 等数据到表regonRequest中
+	#
         t = int(1000*round(time.time()))
-        #t = int(round(time.time()))
 	mydict = {}
 	mydict['timestamp'] = t
 	mydict['hostname'] = v2['tag.Hostname']
@@ -98,14 +100,28 @@ class Region(multiprocessing.Process):
 	mydict['write'] = [t, round((v2['writeRequestCount'] - v1['writeRequestCount'])/self.interval)]
 	mydict['read']  = [t, round((v2['readRequestCount'] - v1['readRequestCount'])/self.interval)]
         	
-	#
-	#  保存tps、qps 等数据到表regonRequest中
-	#
 	self._saveMongo(mydict, 'regonRequest')
+
+	#
+	#  保存region, store, hfile, memStore信息
+	#
+
+	rsfmdict = {}
+	rsfmdict['timestamp']      = t
+	rsfmdict['hostname']       = v2['tag.Hostname']
+	rsfmdict['regionCount']    = [t, v2['regionCount']]
+	rsfmdict['storeCount']     = [t, v2['storeCount']]
+	rsfmdict['storeFileCount'] = [t, v2['storeFileCount']]
+	rsfmdict['storeFileSize']  = [t, v2['storeFileSize']]
+	rsfmdict['hlogFileCount']  = [t, v2['hlogFileCount']]
+	rsfmdict['hlogFileSize']   = [t, v2['hlogFileSize']]
+	rsfmdict['memStoreSize']   = [t, v2['memStoreSize']]
+
+	self._saveMongo(rsfmdict, 'rsfmInfo')
 
 
     def JvmMetrics(self, v1):
-        t = int(round(time.time()))
+        t = int(1000*round(time.time()))
 	hostname = v1['tag.Hostname']
 	
 	#print t, hostname, v1['MemNonHeapUsedM']
