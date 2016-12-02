@@ -68,7 +68,6 @@ class Region(multiprocessing.Process):
 	    WAL_v2           = self._getValue(url, tag['WAL'])
 
             if (regionServer_v1 is None or regionServer_v2 is None):
-	        print "xx"
 	        pass
 	    else:
                 self.regionServer(regionServer_v1, regionServer_v2)
@@ -88,6 +87,7 @@ class Region(multiprocessing.Process):
     #
     def regionServer(self, v1, v2):
         t = int(1000*round(time.time()))
+        #t = int(round(time.time()))
 	mydict = {}
 	mydict['timestamp'] = t
 	mydict['hostname'] = v2['tag.Hostname']
@@ -105,7 +105,7 @@ class Region(multiprocessing.Process):
 
 
     def JvmMetrics(self, v1):
-        t = int(1000*round(time.time()))
+        t = int(round(time.time()))
 	hostname = v1['tag.Hostname']
 	
 	#print t, hostname, v1['MemNonHeapUsedM']

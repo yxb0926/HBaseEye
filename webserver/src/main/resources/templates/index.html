@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title>Dashboard - Ace Admin</title>
+
+		<meta name="description" content="overview &amp; stats" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- bootstrap & fontawesome -->
+
+
+        <script src="/assets/js/jquery-2.1.4.min.js"></script>
+
+	</head>
+
+	<body class="no-skin">
+
+        <div id="div_pictest"></div>
+
+	</body>
+
+<script src="/assets/js/highcharts.js"></script>
+<script type="application/javascript">
+    $.ajax({
+        url:"/mng/xxx",
+        dataType:"json",
+        async:true,
+        data:{
+            "hostname": "s-hadoop-log03.niceprivate.com",
+            "starttime" : 1480650873000,
+            "endtime":    1490650873000,
+        },
+        type:"GET",
+        beforeSend:function(){
+        },
+        success:function(data) {
+            console.log(data);
+            drawpics("pictest", data);
+
+        },
+        complete:function(){
+        },
+        error:function () {
+            alert("操作出错,请检查!");
+        }
+    });
+
+    function drawpics(kpix, data) {
+        var div_name = "div_" + kpix;
+        Highcharts.setOptions({
+            global: {useUTC: false}
+        });
+
+        $('#' + div_name).highcharts({
+            title: {
+                text: kpix
+            },
+            chart: {
+               zoomType: "x" //放大什么坐标上的数据 可以是x、y、xy
+            },
+            xAxis: {
+                type: 'datetime',
+                tickInterval: 0,
+                tickInterval: 3600 * 100,
+                labels: {
+                    formatter: function () {
+                        return Highcharts.dateFormat('%y.%m.%d %H:%M', this.value);
+                    }
+                }
+            },
+
+            tooltip: {
+                valueSuffix: '',
+                xDateFormat: '%Y-%m-%d %H:%M:%S',
+                crosshairs: true,
+                shared: true
+            },
+
+            credits: {
+                enabled: false
+            },
+
+            plotOptions: {
+                series: {lineWidth: 1}
+            },
+            series: [{
+                data: data,
+
+
+            }]
+        })
+    }
+</script>
+</html>
