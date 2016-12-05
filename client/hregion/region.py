@@ -100,7 +100,7 @@ class Region(multiprocessing.Process):
 	mydict['write'] = [t, round((v2['writeRequestCount'] - v1['writeRequestCount'])/self.interval)]
 	mydict['read']  = [t, round((v2['readRequestCount'] - v1['readRequestCount'])/self.interval)]
         	
-	self._saveMongo(mydict, 'regonRequest')
+	self._saveMongo(mydict, 'regionRequest')
 
 	#
 	#  保存region, store, hfile, memStore信息
