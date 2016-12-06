@@ -1,41 +1,54 @@
 #!/usr/bin/env python
 #encoding:utf-8
 
+import urllib2
+import json
+from pymongo import *
+import conf.parseconf
 
-import os
-import time
-from subprocess import Popen, PIPE
-from ctypes import pythonapi, c_int, c_char_p, POINTER, addressof, pointer, CDLL, memmove, memset
-from ctypes.util import find_library
+class Utils:
+    def __init__(self):
+        pass
 
-"""
-  Attempt to set the process name with ctypes
-"""
-class SetPname:
-    name = ""
-    def __init__(self, name):
-        self.name = name
+    def getMetrics(self, url, tag):
+        url = url + tag
 
-        Py_GetArgcArgv = pythonapi.Py_GetArgcArgv
+        try:
+            socket = urllib2.urlopen(url)
+            v = socket.read()
+            data = json.loads(v)
+            socket.close()
 
-        c_lib = CDLL(find_library("c"))
-        PR_SET_NAME = 15                        # linux specific
+            if 'beans' not in data.keys():
+                data = {}
+                data['beans'] = []
+                data['beans'].append(None)
+            if not len(data['beans']):
+                data = {}
+                data['beans'] = []
+                data['beans'].append(None)
 
-        argc_t = POINTER(c_char_p)
-        Py_GetArgcArgv.restype = None
-        Py_GetArgcArgv.argtypes = [POINTER(c_int), POINTER(argc_t)]
+        except:
+            print "Error!"
+            data = {}
+            data['beans'] = []
+            data['beans'].append(None)
+        finally:
+            pass
 
-	self.__setPname()
+        return data['beans'][0]
 
-    def __setPname(self):
-        argv = c_int(0)
-        argc = argc_t()
-        Py_GetArgcArgv(argv, pointer(argc))
-        name0 = self.name+"\0"
-        memset(argc.contents, 0, 256)       # could do this better!
-        memmove(argc.contents, name0, len(name0))
-        # prctl doesn't seem to be needed on linux?
-        c_lib.prctl(PR_SET_NAME, self.name+"\0", 0, 0, 0)
+    def insertMongo(self, data, tablename, mongoconf):
+        client = MongoClient(mongoconf['ip'][0], int(mongoconf['port'][0]))
+        db = client.hbasestat
+        collection = db[tablename]
+        collection.insert(data)
+        client.close()
 
 
-
+    def updateMongo(self, data, tablename, mongoconf):
+        client = MongoClient(mongoconf['ip'][0], int(mongoconf['port'][0]))
+        db = client.hbasestat
+        collection = db[tablename]
+        collection.update({'hostname':data['hostname']}, data, upsert=True)
+        client.close()

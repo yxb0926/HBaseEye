@@ -13,6 +13,7 @@ sys.setdefaultencoding('utf-8')
 
 import conf.parseconf
 import hregion.region
+import hmaster.master
 import util.utils
 
 
@@ -24,11 +25,17 @@ def main():
 
     parseConf.getHregion()
 
-    threadRegion = hregion.region.Region(parseConf.getHregion(), parseConf.getMongodb())
+    threadRegion = hregion.region.Region(parseConf.getHregion(),  parseConf.getMongodb())
+    threadMaster = hmaster.master.Master(parseConf.getHmaster(),  parseConf.getMongodb())
     
     threadRegion.daemon = True
     threadRegion.start()
+
+    threadMaster.daemon = True
+    threadMaster.start()
+
     threadRegion.join()
+    threadMaster.join()
     
 
 if __name__ == "__main__":
