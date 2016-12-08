@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/HBaseEye.iml" filepath="$PROJECT_DIR$/.idea/HBaseEye.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webserver/HBaseEye.iml" filepath="$PROJECT_DIR$/webserver/HBaseEye.iml" />
     </modules>
   </component>
 </project>

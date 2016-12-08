@@ -1,4 +1,7 @@
 *.pyc
+*.pyo
 *.spec
 dist
 build
+*.iml
+.gitignore
