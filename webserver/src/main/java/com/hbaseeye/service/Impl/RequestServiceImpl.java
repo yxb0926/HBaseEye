@@ -37,7 +37,7 @@ public class RequestServiceImpl implements RequestService{
             MongoClient mongoClient = new MongoClient("10.10.10.198", 27017);
             MongoDatabase mongoDatabase = mongoClient.getDatabase("hbasestat");
 
-            MongoCollection<Document> collection = mongoDatabase.getCollection("regonRequest");
+            MongoCollection<Document> collection = mongoDatabase.getCollection("regionRequest");
 
             collection.find(and(gt("timestamp",starttime),
                     eq("hostname",hostname))).

@@ -31,11 +31,4 @@ public class BaseController {
 
         return requestService.getQps(hostname, starttime, endtime);
     }
-
-    @RequestMapping("/abc")
-    public ModelAndView abc(HttpServletRequest request){
-        System.out.println("abcxxxxxxxxxxxxxxxx");
-        ModelAndView modelAndView = new ModelAndView("index");
-        return modelAndView;
-    }
 }
