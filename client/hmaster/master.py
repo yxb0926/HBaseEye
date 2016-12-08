@@ -92,7 +92,7 @@ class Master(multiprocessing.Process):
         mydict['ThreadsTerminated']               = [t, value['ThreadsTerminated']]
         
         tools = util.utils.Utils()
-        tools.updateMongo(mydict, 'jmvMetrics', self.mongodbConf)
+        tools.insertMongo(mydict, 'jmvMetrics', self.mongodbConf)
 
 
 
