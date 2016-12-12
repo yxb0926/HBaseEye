@@ -46,10 +46,10 @@ class Master(multiprocessing.Process):
 
             time.sleep(interval)
 
-            self.clusterInfo(masterServer)
+            self.masterInfo(masterServer)
             self.jvmMetrics(masterJvm)
 
-    def clusterInfo(self, value):
+    def masterInfo(self, value):
         t = int(1000*round(time.time()))
 
         mydict = {}
@@ -66,7 +66,7 @@ class Master(multiprocessing.Process):
         mydict['clusterRequests']      = value['clusterRequests']
 
         tools = util.utils.Utils()
-        tools.updateMongo(mydict, 'clusterInfo', self.mongodbConf)
+        tools.updateMongo(mydict, 'masterInfo', self.mongodbConf)
 
     
     def jvmMetrics(self, value):
@@ -93,8 +93,4 @@ class Master(multiprocessing.Process):
         
         tools = util.utils.Utils()
         tools.insertMongo(mydict, 'jmvMetrics', self.mongodbConf)
-
-
-
-
 
