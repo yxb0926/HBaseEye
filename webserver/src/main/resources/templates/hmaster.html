@@ -9,7 +9,7 @@
         <div id="sidebar" class="sidebar responsive ace-save-state" th:include="layout :: sidebar">
         </div>
 
-        <!-- 这里是每个页面的内容 -->
+        <!-- 这里是每个页面自定义内容 -->
         <div class="main-content">
             <div class="main-content-inner">
                 <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -18,9 +18,52 @@
                             <i class="ace-icon fa fa-home home-icon"></i>
                             <a href="#">Home</a>
                         </li>
-                        <li class="active">Master</li>
+                        <li class="active">Master信息</li>
                     </ul><!-- /.breadcrumb -->
                 </div>
+
+                <div class="col-xs-12 col-sm-12 widget-container-col" id="widget-container-col-2">
+                    <div class="widget-box widget-color-blue" id="widget-box-2">
+                        <div class="widget-header">
+                            <h5 class="widget-title bigger lighter">
+                                <i class="ace-icon fa fa-table"></i>
+                                Master Info
+                            </h5>
+                        </div>
+
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead class="thin-border-bottom">
+                                    <tr>
+                                        <th>ServerName</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                        <th>ClusterRequests</th>
+                                        <th>Strat Time</th>
+                                        <th>Collection Time</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <span th:each="key : ${clusterinfo}">
+                                        <tr>
+                                            <td th:text="${key.serverName}"></td>
+                                            <td th:text="${key.role}"></td>
+                                            <td th:text="${key.isActiveMaster}"></td>
+                                            <td th:text="${key.clusterRequests}"></td>
+                                            <td th:text="${#dates.format(key.masterStartTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                            <td th:text="${#dates.format(key.timestamp, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                        </tr>
+                                    </span>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.span -->
+
+
             </div>
         </div><!-- /.main-content -->
     </div>
