@@ -50,6 +50,7 @@ class Master(multiprocessing.Process):
             self.jvmMetrics(masterJvm)
 
     def masterInfo(self, value):
+        tools = util.utils.Utils()
         t = int(1000*round(time.time()))
 
         mydict = {}
@@ -65,8 +66,27 @@ class Master(multiprocessing.Process):
         mydict['numDeadRegionServers'] = value['numDeadRegionServers']
         mydict['clusterRequests']      = value['clusterRequests']
 
-        tools = util.utils.Utils()
-        tools.updateMongo(mydict, 'masterInfo', self.mongodbConf)
+        serverdict = {}
+        serverdict['timestamp']        = t
+        if value['tag.isActiveMaster'] == 'true':
+            liveRegionServer = value['tag.liveRegionServers'].split(";")
+            for server in liveRegionServer:
+                serverdict['serverName'] = server
+                serverdict['hostname']   = self._getHostNameFromServerName(server)
+                serverdict['liveRegionServer'] = 'Live'
+
+                tools.upsertMongo(serverdict, 'regionInfo', self.mongodbConf)
+
+            if value['tag.deadRegionServers'] != None and value['tag.deadRegionServers'] != '':
+                deadRegionserver = value['tag.deadRegionServers'].split(";")
+                for server in deadRegionserver:
+                    serverdict['serverName'] = server
+                    serverdict['hostname']   = self._getHostNameFromServerName(server)
+                    serverdict['liveRegionServer'] = 'Dead'
+
+                    tools.upsertMongo(serverdict, 'regionInfo', self.mongodbConf)
+
+        tools.upsertMongo(mydict, 'masterInfo', self.mongodbConf)
 
     
     def jvmMetrics(self, value):
@@ -93,4 +113,9 @@ class Master(multiprocessing.Process):
         
         tools = util.utils.Utils()
         tools.insertMongo(mydict, 'jmvMetrics', self.mongodbConf)
+
+
+    def _getHostNameFromServerName(self, serverName):
+        server = serverName.split(",")
+        return  server[0]
 

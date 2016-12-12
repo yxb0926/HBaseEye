@@ -46,7 +46,7 @@ class Utils:
         client.close()
 
 
-    def updateMongo(self, data, tablename, mongoconf):
+    def upsertMongo(self, data, tablename, mongoconf):
         client = MongoClient(mongoconf['ip'][0], int(mongoconf['port'][0]))
         db = client.hbasestat
         collection = db[tablename]
