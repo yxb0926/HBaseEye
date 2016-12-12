@@ -19,7 +19,7 @@
                             <a href="index">Home</a>
                         </li>
                         <li class="active">
-                            <a href="hmaster">Master信息</a>
+                            <a href="hregion">RegionServer信息</a>
                         </li>
                     </ul><!-- /.breadcrumb -->
                 </div>
@@ -29,7 +29,7 @@
                         <div class="widget-header">
                             <h5 class="widget-title bigger lighter">
                                 <i class="ace-icon fa fa-table"></i>
-                                Master Info
+                                RegionServer Info
                             </h5>
                         </div>
 
@@ -39,22 +39,16 @@
                                     <thead class="thin-border-bottom">
                                     <tr>
                                         <th>ServerName</th>
-                                        <th>Role</th>
                                         <th>Status</th>
-                                        <th>ClusterRequests</th>
-                                        <th>Strat Time</th>
-                                        <th>Collection Time</th>
+                                        <th>CollectionTime</th>
                                     </tr>
                                     </thead>
 
                                     <tbody>
-                                    <span th:each="key : ${hmasterinfo}">
+                                    <span th:each="key : ${hregioninfo}">
                                         <tr>
                                             <td th:text="${key.serverName}"></td>
-                                            <td th:text="${key.role}"></td>
-                                            <td th:text="${key.isActiveMaster}"></td>
-                                            <td th:text="${key.clusterRequests}"></td>
-                                            <td th:text="${#dates.format(key.masterStartTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                            <td th:text="${key.liveRegionServer}"></td>
                                             <td th:text="${#dates.format(key.timestamp, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                         </tr>
                                     </span>

@@ -9,7 +9,7 @@
         <div id="sidebar" class="sidebar responsive ace-save-state" th:include="layout :: sidebar">
         </div>
 
-        <!-- 这里是每个页面的内容 -->
+        <!-- 这里是每个页面自定义内容 -->
         <div class="main-content">
             <div class="main-content-inner">
                 <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -18,9 +18,17 @@
                             <i class="ace-icon fa fa-home home-icon"></i>
                             <a href="index">Home</a>
                         </li>
-                        <li class="active">Dashboard</li>
+                        <li class="">
+                            <a href="hregion">RegionServer信息</a>
+                        </li>
+                        <li class="active">
+                            <a href="hregionkpi">RegionServer性能图</a>
+                        </li>
                     </ul><!-- /.breadcrumb -->
                 </div>
+
+
+
             </div>
         </div><!-- /.main-content -->
     </div>
