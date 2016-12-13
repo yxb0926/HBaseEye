@@ -33,7 +33,10 @@ public class HRegionController {
 
     @RequestMapping(value = "/hregionkpi", method = RequestMethod.GET)
     public ModelAndView hRegionKpi(HttpServletRequest request){
+        String hostName = request.getParameter("hostName");
         ModelAndView modelAndView = new ModelAndView("hregionkpi");
+        modelAndView.addObject("hostname", hostName);
+        modelAndView.addObject("type", "hregion");
 
         return modelAndView;
     }

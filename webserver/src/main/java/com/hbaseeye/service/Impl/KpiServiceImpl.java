@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.CollectionCallback;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ public class KpiServiceImpl implements KpiService {
         String tableName = map.get(tag).getTableName();
         final String filedName = map.get(tag).getFiledName();
 
+        final List list = new ArrayList();
         List<DBObject> resutl = mongoTemplate.execute(tableName, new CollectionCallback<List<DBObject>>(){
             public List<DBObject> doInCollection(DBCollection collection) throws MongoException, DataAccessException{
 
@@ -53,28 +55,13 @@ public class KpiServiceImpl implements KpiService {
                 DBCursor dbCursor = collection.find(queryCondition, filedCondition);
 
                 while (dbCursor.hasNext()){
-                    System.out.println(dbCursor.next());
+                    list.add(dbCursor.next().get(filedName));
                 }
 
-                return null;
-                //return dbCursor.toArray();
+                return list;
             }
         });
 
-
-        /**
-        for( DBObject dbObject:resutl){
-            System.out.println(dbObject.toString());
-        }
-        */
-
-        return null;
+        return list;
     }
-
-    private List getData(){
-
-
-        return null;
-    }
-
 }

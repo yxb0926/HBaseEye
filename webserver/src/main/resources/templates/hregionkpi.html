@@ -28,10 +28,73 @@
                 </div>
 
 
+                <div class="col-xs-12 col-sm-12 widget-container-col" id="widget-container-col-2">
+                    <div>
+                        <h1 th:text="${hostname}"></h1>
+                    </div>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this)" id="qps"/>
+                            <span class="lbl" style="position: absolute;"> QPS </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this)" id="read"/>
+                            <span class="lbl" style="position: absolute;"> Read </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this)" id="write"/>
+                            <span class="lbl" style="position: absolute;"> Write </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this)" id="readRequestCount"/>
+                            <span class="lbl" style="position: absolute;"> ReadRequestCount </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this)" id="writeRequestCount"/>
+                            <span class="lbl" style="position: absolute;"> WriteRequestCount </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this)" id="totalRequestCount"/>
+                            <span class="lbl" style="position: absolute;"> TotalRequestCount </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this)" id="xxx1"/>
+                            <span class="lbl" style="position: absolute;"> xxx </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this)" id="xxx2"/>
+                            <span class="lbl" style="position: absolute;"> xxx </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this)" id="xxx3"/>
+                            <span class="lbl" style="position: absolute;"> xxx </span>
+                        </label>
+	                </span>
+                </div>
+
+                <div id="imgsdiv" class="col-xs-12"><hr/></div>
+
 
             </div>
         </div><!-- /.main-content -->
     </div>
+
 </body>
 
 </html>
