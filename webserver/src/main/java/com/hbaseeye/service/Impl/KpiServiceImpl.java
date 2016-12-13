@@ -26,24 +26,36 @@ public class KpiServiceImpl implements KpiService {
         KpiMaps kpiMaps = new KpiMaps();
         Map<String, TableFiledsMap> map = (Map<String, TableFiledsMap>) kpiMaps.typeTableMap.get(type);
         String tableName = map.get(tag).getTableName();
-        String filedName = map.get(tag).getFiledName();
+        final String filedName = map.get(tag).getFiledName();
 
         List<DBObject> resutl = mongoTemplate.execute(tableName, new CollectionCallback<List<DBObject>>(){
             public List<DBObject> doInCollection(DBCollection collection) throws MongoException, DataAccessException{
+
                 DBObject queryCondition = new BasicDBObject();
                 queryCondition.put("hostname", serverName);
-                queryCondition.put("timestamp", new BasicDBObject("$gt",new Long(startTime)));
-                queryCondition.put("timestamp", new BasicDBObject("$lt",new Long(endTime)));
 
-                System.out.println(System.currentTimeMillis());
-                DBCursor dbCursor = collection.find(queryCondition);
-                System.out.println(System.currentTimeMillis());
+                BasicDBObject cond = new BasicDBObject();
+                cond.put("$gte", startTime);
+                cond.put("$lte", endTime);
+
+                queryCondition.put("timestamp",cond);
+
+                // 指定查询哪个字段，不查询哪个字段
+                BasicDBObject filedCondition = new BasicDBObject();
+                filedCondition.append("_id", 0);
+                filedCondition.append(filedName, 1);
+
+
+                BasicDBList condList = new BasicDBList();
+                condList.add(queryCondition);
+                condList.add(filedCondition);
+
+                DBCursor dbCursor = collection.find(queryCondition, filedCondition);
 
                 while (dbCursor.hasNext()){
                     System.out.println(dbCursor.next());
                 }
 
-                dbCursor.close();
                 return null;
                 //return dbCursor.toArray();
             }
