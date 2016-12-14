@@ -45,7 +45,7 @@ function showimg(obj, type){
     function drawpics(kpi, data) {
         var div_name = "div_" + kpi;
         Highcharts.setOptions({
-            global: { useUTC: true }
+            global: { useUTC: false }
 
         });
         $('#'+div_name).highcharts({
