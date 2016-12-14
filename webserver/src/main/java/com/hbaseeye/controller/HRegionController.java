@@ -3,6 +3,7 @@ package com.hbaseeye.controller;
 import com.hbaseeye.model.ClusterInfo;
 import com.hbaseeye.service.ClusterService;
 import com.hbaseeye.service.HRegionServerService;
+import com.hbaseeye.utils.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,13 @@ public class HRegionController {
         String hostName = request.getParameter("hostName");
         ModelAndView modelAndView = new ModelAndView("hregionkpi");
         modelAndView.addObject("hostname", hostName);
-        modelAndView.addObject("type", "hregion");
+
+        DateTime dateTime = new DateTime();
+        String startTime = dateTime.getTimeStr(6*60);  //6小时前时间
+        String endTime = dateTime.getTimeStr(0);
+
+        modelAndView.addObject("startTime", startTime);
+        modelAndView.addObject("endTime",   endTime);
 
         return modelAndView;
     }

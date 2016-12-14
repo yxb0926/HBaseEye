@@ -117,5 +117,6 @@ class Master(multiprocessing.Process):
 
     def _getHostNameFromServerName(self, serverName):
         server = serverName.split(",")
-        return  server[0]
+        hostname = server[0]+".niceprivate.com"
+        return  hostname
 

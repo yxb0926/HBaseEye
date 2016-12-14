@@ -9,5 +9,5 @@ import java.util.List;
  */
 @Service
 public interface KpiService {
-    public List getKpi(String type, String tag, String serverName, Long startTime, Long endTime);
+    public List getKpi(String type, String tag, String serverName, String startTime, String endTime);
 }

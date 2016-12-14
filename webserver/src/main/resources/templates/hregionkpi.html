@@ -3,6 +3,8 @@
 <head th:include="layout :: layouthead"></head>
 
 <body class="no-skin">
+    <script src="assets/js/highcharts.js"></script>
+
     <div id="navbar" class="navbar navbar-default ace-save-state" th:include="layout :: navbar"></div>
 
     <div class="main-container ace-save-state" id="main-container">
@@ -27,62 +29,80 @@
                     </ul><!-- /.breadcrumb -->
                 </div>
 
+                <br/>
+                <div class="col-xs-12 col-sm-12 widget-container-col">
+                    <form class="form-search" name="form" method="get" action="/mysqlslowlog/slowdata?">
+			            <span class="input">
+				            <label>HostName:</label>
+                            <input th:value="${hostname}" type="text" name="hostname" placeholder="主机名" class="nav-search-input" id="nav-hostname" autocomplete="on"/>
+			            </span>
 
+                        <span class="input">
+				            <label>StartTime:</label>
+                            <input th:value="${startTime}" type="text" name="starttime" placeholder="起始时间" class="nav-search-input" id="nav-starttime" autocomplete="on"/>
+                        </span>
+
+                        <span class="input">
+				            <label>EndTime:</label>
+                            <input th:value="${endTime}" type="text" name="endtime" placeholder="截止时间" class="nav-search-input" id="nav-endtime" autocomplete="on"/>
+			            </span>
+                    </form>
+                </div>
+
+
+                <br/>
                 <div class="col-xs-12 col-sm-12 widget-container-col" id="widget-container-col-2">
-                    <div>
-                        <h1 th:text="${hostname}"></h1>
-                    </div>
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
-                            <input class="ace" type="checkbox" onclick="showimg(this)" id="qps"/>
+                            <input class="ace" type="checkbox" onclick="showimg(this, 'hregion')"  id="qps"/>
                             <span class="lbl" style="position: absolute;"> QPS </span>
                         </label>
 	                </span>
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
-                            <input class="ace" type="checkbox" onclick="showimg(this)" id="read"/>
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')"  id="read"/>
                             <span class="lbl" style="position: absolute;"> Read </span>
                         </label>
 	                </span>
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
-                            <input class="ace" type="checkbox" onclick="showimg(this)" id="write"/>
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="write"/>
                             <span class="lbl" style="position: absolute;"> Write </span>
                         </label>
 	                </span>
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
-                            <input class="ace" type="checkbox" onclick="showimg(this)" id="readRequestCount"/>
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="readRequestCount"/>
                             <span class="lbl" style="position: absolute;"> ReadRequestCount </span>
                         </label>
 	                </span>
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
-                            <input class="ace" type="checkbox" onclick="showimg(this)" id="writeRequestCount"/>
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="writeRequestCount"/>
                             <span class="lbl" style="position: absolute;"> WriteRequestCount </span>
                         </label>
 	                </span>
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
-                            <input class="ace" type="checkbox" onclick="showimg(this)" id="totalRequestCount"/>
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="totalRequestCount"/>
                             <span class="lbl" style="position: absolute;"> TotalRequestCount </span>
                         </label>
 	                </span>
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
-                            <input class="ace" type="checkbox" onclick="showimg(this)" id="xxx1"/>
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="xxx1"/>
                             <span class="lbl" style="position: absolute;"> xxx </span>
                         </label>
 	                </span>
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
-                            <input class="ace" type="checkbox" onclick="showimg(this)" id="xxx2"/>
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="xxx2"/>
                             <span class="lbl" style="position: absolute;"> xxx </span>
                         </label>
 	                </span>
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
-                            <input class="ace" type="checkbox" onclick="showimg(this)" id="xxx3"/>
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="xxx3"/>
                             <span class="lbl" style="position: absolute;"> xxx </span>
                         </label>
 	                </span>
@@ -94,6 +114,22 @@
             </div>
         </div><!-- /.main-content -->
     </div>
+
+    <script>
+        /**
+         * Created by yuanxiaobin on 16/12/13.
+         */
+
+        function showimg1(obj, type){
+
+            var kpi = obj.id;
+            var type = type;
+            var starttime = $("#nav-starttime").val();
+            var endtime   = $("#nav-endtime").val();
+            var hostname  = $("#nav-hostname").val();
+        }
+
+    </script>
 
 </body>
 

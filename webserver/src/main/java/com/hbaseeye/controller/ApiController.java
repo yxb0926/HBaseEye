@@ -26,8 +26,8 @@ public class ApiController {
         String type       = request.getParameter("type");
         String tag        = request.getParameter("tag");
         String serverName = request.getParameter("serverName");
-        Long startTime    = Long.valueOf(request.getParameter("startTime"));
-        Long endTime      = Long.valueOf(request.getParameter("endTime"));
+        String startTime  = request.getParameter("startTime");
+        String  endTime   = request.getParameter("endTime");
 
         List kpiList = kpiService.getKpi(type, tag, serverName, startTime, endTime);
         return kpiList;
