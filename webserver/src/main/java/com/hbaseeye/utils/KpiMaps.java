@@ -31,6 +31,27 @@ public class KpiMaps {
         tagRegionMap.put("memStoreSize", new TableFiledsMap("regionrsfmInfo", "memStoreSize"));
         tagRegionMap.put("storeFileSize", new TableFiledsMap("regionrsfmInfo", "storeFileSize"));
 
+
+        tagRegionMap.put("ThreadsWaiting", new TableFiledsMap("reginJvmMetrics", "ThreadsWaiting"));
+        tagRegionMap.put("ThreadsTerminated", new TableFiledsMap("reginJvmMetrics", "ThreadsTerminated"));
+        tagRegionMap.put("MemNonHeapCommittedM", new TableFiledsMap("reginJvmMetrics", "MemNonHeapCommittedM"));
+        tagRegionMap.put("GcTimeMillis", new TableFiledsMap("reginJvmMetrics", "GcTimeMillis"));
+        tagRegionMap.put("MemHeapMaxM", new TableFiledsMap("reginJvmMetrics", "MemHeapMaxM"));
+        tagRegionMap.put("MemHeapUsedM", new TableFiledsMap("reginJvmMetrics", "MemHeapUsedM"));
+        tagRegionMap.put("ThreadsBlocked", new TableFiledsMap("reginJvmMetrics", "ThreadsBlocked"));
+        tagRegionMap.put("GcTimeMillisConcurrentMarkSweep", new TableFiledsMap("reginJvmMetrics", "GcTimeMillisConcurrentMarkSweep"));
+        tagRegionMap.put("GcTimeMillisParNew", new TableFiledsMap("reginJvmMetrics", "GcTimeMillisParNew"));
+        tagRegionMap.put("MemHeapCommittedM", new TableFiledsMap("reginJvmMetrics", "MemHeapCommittedM"));
+        tagRegionMap.put("GcCountParNew", new TableFiledsMap("reginJvmMetrics", "GcCountParNew"));
+        tagRegionMap.put("MemNonHeapMaxM", new TableFiledsMap("reginJvmMetrics", "MemNonHeapMaxM"));
+        tagRegionMap.put("GcCountConcurrentMarkSweep", new TableFiledsMap("reginJvmMetrics", "GcCountConcurrentMarkSweep"));
+        tagRegionMap.put("ThreadsNew", new TableFiledsMap("reginJvmMetrics", "ThreadsNew"));
+        tagRegionMap.put("ThreadsRunnable", new TableFiledsMap("reginJvmMetrics", "ThreadsRunnable"));
+        tagRegionMap.put("GcCount", new TableFiledsMap("reginJvmMetrics", "GcCount"));
+        tagRegionMap.put("ThreadsTimedWaiting", new TableFiledsMap("reginJvmMetrics", "ThreadsTimedWaiting"));
+        tagRegionMap.put("MemMaxM", new TableFiledsMap("reginJvmMetrics", "MemMaxM"));
+        tagRegionMap.put("MemNonHeapUsedM", new TableFiledsMap("reginJvmMetrics", "MemNonHeapUsedM"));
+
     }
 
     static {

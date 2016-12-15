@@ -96,6 +96,12 @@
 	                </span>
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="storeFileSize"/>
+                            <span class="lbl" style="position: absolute;"> StoreFileSize </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
                             <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="hlogFileSize"/>
                             <span class="lbl" style="position: absolute;"> HlogFileSize </span>
                         </label>
@@ -126,8 +132,111 @@
 	                </span>
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
-                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="storeFileSize"/>
-                            <span class="lbl" style="position: absolute;"> StoreFileSize </span>
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="ThreadsWaiting"/>
+                            <span class="lbl" style="position: absolute;"> ThreadsWaiting </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="ThreadsTerminated"/>
+                            <span class="lbl" style="position: absolute;"> ThreadsTerminated </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="MemNonHeapCommittedM"/>
+                            <span class="lbl" style="position: absolute;"> MemNonHeapCommittedM </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="GcTimeMillis"/>
+                            <span class="lbl" style="position: absolute;"> GcTimeMillis </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="MemHeapMaxM"/>
+                            <span class="lbl" style="position: absolute;"> MemHeapMaxM </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="MemHeapUsedM"/>
+                            <span class="lbl" style="position: absolute;"> MemHeapUsedM </span>
+                        </label>
+	                </span>
+
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="GcTimeMillisConcurrentMarkSweep"/>
+                            <span class="lbl" style="position: absolute;"> GcTMCrtMarkSweep </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="GcTimeMillisParNew"/>
+                            <span class="lbl" style="position: absolute;"> GcTimeMillisParNew </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="MemHeapCommittedM"/>
+                            <span class="lbl" style="position: absolute;"> MemHeapCommittedM </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="GcCountParNew"/>
+                            <span class="lbl" style="position: absolute;"> GcCountParNew </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="MemNonHeapMaxM"/>
+                            <span class="lbl" style="position: absolute;"> MemNonHeapMaxM </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="GcCountConcurrentMarkSweep"/>
+                            <span class="lbl" style="position: absolute;"> GcCntCrtMarkSweep </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="ThreadsNew"/>
+                            <span class="lbl" style="position: absolute;"> ThreadsNew </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="ThreadsRunnable"/>
+                            <span class="lbl" style="position: absolute;"> ThreadsRunnable </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="GcCount"/>
+                            <span class="lbl" style="position: absolute;"> GcCount </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="ThreadsTimedWaiting"/>
+                            <span class="lbl" style="position: absolute;"> ThreadsTimedWaiting </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="MemMaxM"/>
+                            <span class="lbl" style="position: absolute;"> MemMaxM </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="MemNonHeapUsedM"/>
+                            <span class="lbl" style="position: absolute;"> MemNonHeapUsedM </span>
                         </label>
 	                </span>
                 </div>
