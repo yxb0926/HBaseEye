@@ -12,6 +12,7 @@ public class KpiMaps {
     public KpiMaps(){}
 
     public static Map tagRegionMap = new HashMap();
+    public static Map tagMasterMap = new HashMap();
     public static Map typeTableMap = new HashMap();
 
     static {
@@ -33,7 +34,15 @@ public class KpiMaps {
     }
 
     static {
+        tagMasterMap.put("GcTimeMillisConcurrentMarkSweep", new TableFiledsMap("masterJvmMetrics", "GcTimeMillisConcurrentMarkSweep") );
+        tagMasterMap.put("GcTimeMillisParNew", new TableFiledsMap("masterJvmMetrics", "GcTimeMillisParNew") );
+        tagMasterMap.put("ThreadsBlocked", new TableFiledsMap("masterJvmMetrics", "ThreadsBlocked") );
+        tagMasterMap.put("GcCountParNew", new TableFiledsMap("masterJvmMetrics", "GcCountParNew") );
+    }
+
+    static {
         typeTableMap.put("hregion", tagRegionMap);
+        typeTableMap.put("hmaster", tagMasterMap);
     }
 
 }
