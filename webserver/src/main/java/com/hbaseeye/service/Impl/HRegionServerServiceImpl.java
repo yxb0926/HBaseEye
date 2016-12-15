@@ -3,7 +3,9 @@ package com.hbaseeye.service.Impl;
 import com.hbaseeye.model.RegionInfo;
 import com.hbaseeye.service.HRegionServerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +20,11 @@ public class HRegionServerServiceImpl implements HRegionServerService {
 
     public List getRegionInfo() {
         List <RegionInfo> regionInfoList = null;
-        regionInfoList = mongoTemplate.findAll(RegionInfo.class);
+        Query query = new Query();
+        query.with(new Sort(Sort.Direction.ASC, "hostname"));
+
+
+        regionInfoList = mongoTemplate.find(query, RegionInfo.class);
 
         return regionInfoList;
     }
