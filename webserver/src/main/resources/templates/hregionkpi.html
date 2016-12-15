@@ -54,19 +54,19 @@
                 <div class="col-xs-12 col-sm-12 widget-container-col" id="widget-container-col-2">
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
-                            <input class="ace" type="checkbox" onclick="showimg(this, 'hregion')"  id="qps"/>
+                            <input class="ace" type="checkbox" checked="checked" onclick="showimg(this, 'hregion')"  id="qps"/>
                             <span class="lbl" style="position: absolute;"> QPS </span>
                         </label>
 	                </span>
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
-                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')"  id="read"/>
+                            <input class="ace" type="checkbox" checked="checked" onclick="showimg(this,'hregion')"  id="read"/>
                             <span class="lbl" style="position: absolute;"> Read </span>
                         </label>
 	                </span>
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
-                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="write"/>
+                            <input class="ace" type="checkbox" checked="checked" onclick="showimg(this,'hregion')" id="write"/>
                             <span class="lbl" style="position: absolute;"> Write </span>
                         </label>
 	                </span>
@@ -90,14 +90,44 @@
 	                </span>
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
-                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="xxx1"/>
-                            <span class="lbl" style="position: absolute;"> xxx </span>
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="regionCount"/>
+                            <span class="lbl" style="position: absolute;"> RegionCount </span>
                         </label>
 	                </span>
                     <span class="help-inline col-xs-2 col-sm-2">
                         <label class="middle">
-                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="xxx2"/>
-                            <span class="lbl" style="position: absolute;"> xxx </span>
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="hlogFileSize"/>
+                            <span class="lbl" style="position: absolute;"> HlogFileSize </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="storeFileCount"/>
+                            <span class="lbl" style="position: absolute;"> StoreFileCount </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="hlogFileCount"/>
+                            <span class="lbl" style="position: absolute;"> HlogFileCount </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="storeCount"/>
+                            <span class="lbl" style="position: absolute;"> StoreCount </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="memStoreSize"/>
+                            <span class="lbl" style="position: absolute;"> MemStoreSize </span>
+                        </label>
+	                </span>
+                    <span class="help-inline col-xs-2 col-sm-2">
+                        <label class="middle">
+                            <input class="ace" type="checkbox" onclick="showimg(this,'hregion')" id="storeFileSize"/>
+                            <span class="lbl" style="position: absolute;"> StoreFileSize </span>
                         </label>
 	                </span>
                     <span class="help-inline col-xs-2 col-sm-2">
@@ -114,23 +144,6 @@
             </div>
         </div><!-- /.main-content -->
     </div>
-
-    <script>
-        /**
-         * Created by yuanxiaobin on 16/12/13.
-         */
-
-        function showimg1(obj, type){
-
-            var kpi = obj.id;
-            var type = type;
-            var starttime = $("#nav-starttime").val();
-            var endtime   = $("#nav-endtime").val();
-            var hostname  = $("#nav-hostname").val();
-        }
-
-    </script>
-
 </body>
 
 </html>

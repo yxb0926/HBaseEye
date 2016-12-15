@@ -24,6 +24,11 @@ public class KpiMaps {
 
         tagRegionMap.put("regionCount",  new TableFiledsMap("rsfmInfo", "regionCount"));
         tagRegionMap.put("hlogFileSize", new TableFiledsMap("rsfmInfo", "hlogFileSize"));
+        tagRegionMap.put("storeFileCount", new TableFiledsMap("rsfmInfo", "storeFileCount"));
+        tagRegionMap.put("hlogFileCount", new TableFiledsMap("rsfmInfo", "hlogFileCount"));
+        tagRegionMap.put("storeCount", new TableFiledsMap("rsfmInfo", "storeCount"));
+        tagRegionMap.put("memStoreSize", new TableFiledsMap("rsfmInfo", "memStoreSize"));
+        tagRegionMap.put("storeFileSize", new TableFiledsMap("rsfmInfo", "storeFileSize"));
 
     }
 

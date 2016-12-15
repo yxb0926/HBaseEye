@@ -112,7 +112,7 @@ class Master(multiprocessing.Process):
         mydict['ThreadsTerminated']               = [t, value['ThreadsTerminated']]
         
         tools = util.utils.Utils()
-        tools.insertMongo(mydict, 'jmvMetrics', self.mongodbConf)
+        tools.insertMongo(mydict, 'masterJvmMetrics', self.mongodbConf)
 
 
     def _getHostNameFromServerName(self, serverName):
