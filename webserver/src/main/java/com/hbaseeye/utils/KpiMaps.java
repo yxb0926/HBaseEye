@@ -23,13 +23,13 @@ public class KpiMaps {
         tagRegionMap.put("read",  new TableFiledsMap("regionRequest", "read"));
         tagRegionMap.put("write", new TableFiledsMap("regionRequest", "write"));
 
-        tagRegionMap.put("regionCount",  new TableFiledsMap("rsfmInfo", "regionCount"));
-        tagRegionMap.put("hlogFileSize", new TableFiledsMap("rsfmInfo", "hlogFileSize"));
-        tagRegionMap.put("storeFileCount", new TableFiledsMap("rsfmInfo", "storeFileCount"));
-        tagRegionMap.put("hlogFileCount", new TableFiledsMap("rsfmInfo", "hlogFileCount"));
-        tagRegionMap.put("storeCount", new TableFiledsMap("rsfmInfo", "storeCount"));
-        tagRegionMap.put("memStoreSize", new TableFiledsMap("rsfmInfo", "memStoreSize"));
-        tagRegionMap.put("storeFileSize", new TableFiledsMap("rsfmInfo", "storeFileSize"));
+        tagRegionMap.put("regionCount",  new TableFiledsMap("regionrsfmInfo", "regionCount"));
+        tagRegionMap.put("hlogFileSize", new TableFiledsMap("regionrsfmInfo", "hlogFileSize"));
+        tagRegionMap.put("storeFileCount", new TableFiledsMap("regionrsfmInfo", "storeFileCount"));
+        tagRegionMap.put("hlogFileCount", new TableFiledsMap("regionrsfmInfo", "hlogFileCount"));
+        tagRegionMap.put("storeCount", new TableFiledsMap("regionrsfmInfo", "storeCount"));
+        tagRegionMap.put("memStoreSize", new TableFiledsMap("regionrsfmInfo", "memStoreSize"));
+        tagRegionMap.put("storeFileSize", new TableFiledsMap("regionrsfmInfo", "storeFileSize"));
 
     }
 
