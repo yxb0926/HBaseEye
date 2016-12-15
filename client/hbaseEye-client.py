@@ -15,6 +15,7 @@ import conf.parseconf
 import hregion.region
 import hmaster.master
 import util.utils
+import cron.cron
 
 
 def main():
@@ -24,6 +25,8 @@ def main():
     parseConf.parse()
 
     parseConf.getHregion()
+
+    cron.cron.Cron(parseConf.getMongodb())
 
     threadRegion = hregion.region.Region(parseConf.getHregion(),  parseConf.getMongodb())
     threadMaster = hmaster.master.Master(parseConf.getHmaster(),  parseConf.getMongodb())
