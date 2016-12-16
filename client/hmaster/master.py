@@ -75,7 +75,7 @@ class Master(multiprocessing.Process):
                 serverdict['hostname']   = self._getHostNameFromServerName(server)
                 serverdict['liveRegionServer'] = 'Live'
 
-                tools.upsertMongo(serverdict, 'regionInfo', self.mongodbConf)
+                tools.upsertMongo(serverdict, 'regionInfoTmp', self.mongodbConf)
 
             if value['tag.deadRegionServers'] != None and value['tag.deadRegionServers'] != '':
                 deadRegionserver = value['tag.deadRegionServers'].split(";")
@@ -84,7 +84,7 @@ class Master(multiprocessing.Process):
                     serverdict['hostname']   = self._getHostNameFromServerName(server)
                     serverdict['liveRegionServer'] = 'Dead'
 
-                    tools.upsertMongo(serverdict, 'regionInfo', self.mongodbConf)
+                    tools.upsertMongo(serverdict, 'regionInfoTmp', self.mongodbConf)
 
         tools.upsertMongo(mydict, 'masterInfo', self.mongodbConf)
 

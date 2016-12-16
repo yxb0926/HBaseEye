@@ -2,19 +2,17 @@
 # -*- coding: utf-8 -*-
 # write by yxb0926@163.com at 2016-12-15
 
-#from hregion import *
 import hregion
+import multiprocessing
+from multiprocessing import Process
 
-class Cron():
+class Cron(multiprocessing.Process):
     mongoconf = None
     def __init__(self, mongoconf):
+        multiprocessing.Process.__init__(self)
         self.mongoconf = mongoconf
-        self.start()
 
-    def start(self):
-        threadRegion = hregion.HRegion(self.mongoconf)
-        threadRegion.daemon = True
-        threadRegion.start()
+    def run(self):
+        hregion.HRegion(self.mongoconf)
 
-        threadRegion.join()
 

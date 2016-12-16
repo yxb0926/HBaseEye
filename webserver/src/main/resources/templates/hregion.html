@@ -40,6 +40,10 @@
                                     <tr>
                                         <th>ServerName</th>
                                         <th>Status</th>
+                                        <th>Read</th>
+                                        <th>Write</th>
+                                        <th>TotalRequestCount</th>
+                                        <th>RegionCount</th>
                                         <th>CollectionTime</th>
                                     </tr>
                                     </thead>
@@ -51,6 +55,10 @@
                                                 <a th:href="@{hregionkpi(hostName=${key.hostname})}" th:text="${key.serverName}"></a>
                                             </td>
                                             <td th:text="${key.liveRegionServer}"></td>
+                                            <td th:text="${key.read}"></td>
+                                            <td th:text="${key.write}"></td>
+                                            <td th:text="${key.totalRequestCount}"></td>
+                                            <td th:text="${key.regionCount}"></td>
                                             <td th:text="${#dates.format(key.timestamp, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                         </tr>
                                     </span>

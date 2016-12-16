@@ -14,6 +14,42 @@ public class RegionInfo {
     String serverName;
     String hostname;
     String liveRegionServer;
+    long   read;
+    long   write;
+    long   totalRequestCount;
+    int    regionCount;
+
+    public int getRegionCount() {
+        return regionCount;
+    }
+
+    public void setRegionCount(int regionCount) {
+        this.regionCount = regionCount;
+    }
+
+    public long getRead() {
+        return read;
+    }
+
+    public void setRead(long read) {
+        this.read = read;
+    }
+
+    public long getWrite() {
+        return write;
+    }
+
+    public void setWrite(long write) {
+        this.write = write;
+    }
+
+    public long getTotalRequestCount() {
+        return totalRequestCount;
+    }
+
+    public void setTotalRequestCount(long totalRequestCount) {
+        this.totalRequestCount = totalRequestCount;
+    }
 
     public String get_id() {
         return _id;

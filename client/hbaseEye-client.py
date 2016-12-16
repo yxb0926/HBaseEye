@@ -26,19 +26,24 @@ def main():
 
     parseConf.getHregion()
 
-    cron.cron.Cron(parseConf.getMongodb())
 
     threadRegion = hregion.region.Region(parseConf.getHregion(),  parseConf.getMongodb())
     threadMaster = hmaster.master.Master(parseConf.getHmaster(),  parseConf.getMongodb())
     
+    threadCron   = cron.cron.Cron(parseConf.getMongodb())
+
     threadRegion.daemon = True
     threadRegion.start()
 
     threadMaster.daemon = True
     threadMaster.start()
 
+    threadCron.daemon   = True
+    threadCron.start()
+
     threadRegion.join()
     threadMaster.join()
+    threadCron.join()
     
 
 if __name__ == "__main__":
