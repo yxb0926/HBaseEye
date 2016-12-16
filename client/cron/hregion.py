@@ -41,7 +41,7 @@ class HRegion():
 
             for v4 in data4:
                 mydict['regionCount'] = v4['regionCount'][1]
-                mydict['memStoreSize'] = v4['memStoreSize'][1]/1024
+                mydict['memStoreSize'] = v4['memStoreSize'][1]/1024/1024
                 mydict['storeFileCount'] = v4['storeFileCount'][1]
                 collection3.update({'hostname':item['hostname']}, mydict, upsert=True)
 

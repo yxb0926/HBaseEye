@@ -18,6 +18,24 @@ public class RegionInfo {
     long   write;
     long   totalRequestCount;
     int    regionCount;
+    int    storeFileCount;
+    int    memStoreSize;
+
+    public int getStoreFileCount() {
+        return storeFileCount;
+    }
+
+    public void setStoreFileCount(int storeFileCount) {
+        this.storeFileCount = storeFileCount;
+    }
+
+    public int getMemStoreSize() {
+        return memStoreSize;
+    }
+
+    public void setMemStoreSize(int memStoreSize) {
+        this.memStoreSize = memStoreSize;
+    }
 
     public int getRegionCount() {
         return regionCount;

@@ -44,6 +44,8 @@
                                         <th>Write</th>
                                         <th>TotalRequestCount</th>
                                         <th>RegionCount</th>
+                                        <th>StoreFileCount</th>
+                                        <th>MemStoreSize</th>
                                         <th>CollectionTime</th>
                                     </tr>
                                     </thead>
@@ -59,6 +61,8 @@
                                             <td th:text="${key.write}"></td>
                                             <td th:text="${key.totalRequestCount}"></td>
                                             <td th:text="${key.regionCount}"></td>
+                                            <td th:text="${key.storeFileCount}"></td>
+                                            <td th:text="${key.memStoreSize}"></td>
                                             <td th:text="${#dates.format(key.timestamp, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                         </tr>
                                     </span>
