@@ -28,7 +28,7 @@ class HRegion():
             collection2 = db["regionRequest"]
             collection4 = db["regionrsfmInfo"]
             data = collection2.find({"hostname":item['hostname']},{"_id":0, "read":1, "write":1, "totalRequestCount":1, "timestamp":1}).sort("timestamp", -1).limit(1)
-            data4 = collection4.find({"hostname":item['hostname']},{"_id":0, "regionCount":1}).sort("timestamp", -1).limit(1)
+            data4 = collection4.find({"hostname":item['hostname']},{"_id":0, "regionCount":1, "memStoreSize":1, "storeFileCount":1}).sort("timestamp", -1).limit(1)
 
             for v in data:
                 mydict['hostname'] = item['hostname']
@@ -41,6 +41,8 @@ class HRegion():
 
             for v4 in data4:
                 mydict['regionCount'] = v4['regionCount'][1]
+                mydict['memStoreSize'] = v4['memStoreSize'][1]/1024
+                mydict['storeFileCount'] = v4['storeFileCount'][1]
                 collection3.update({'hostname':item['hostname']}, mydict, upsert=True)
 
         client.close() 
