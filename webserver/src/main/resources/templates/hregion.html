@@ -42,10 +42,11 @@
                                         <th>Status</th>
                                         <th>Read</th>
                                         <th>Write</th>
-                                        <th>TotalRequestCount</th>
+                                        <th>RequestCount</th>
                                         <th>RegionCount</th>
                                         <th>StoreFileCount</th>
-                                        <th>MemStoreSize</th>
+                                        <th>StoreFileSize(G)</th>
+                                        <th>MemStoreSize(M)</th>
                                         <th>CollectionTime</th>
                                     </tr>
                                     </thead>
@@ -56,12 +57,13 @@
                                             <td>
                                                 <a th:href="@{hregionkpi(hostName=${key.hostname})}" th:text="${key.serverName}"></a>
                                             </td>
-                                            <td th:text="${key.liveRegionServer}"></td>
+                                            <td th:title="${#dates.format(key.timestamp, 'yyyy-MM-dd HH:mm:ss')}" th:text="${key.liveRegionServer}"></td>
                                             <td th:text="${key.read}"></td>
                                             <td th:text="${key.write}"></td>
                                             <td th:text="${key.totalRequestCount}"></td>
                                             <td th:text="${key.regionCount}"></td>
                                             <td th:text="${key.storeFileCount}"></td>
+                                            <td th:text="${key.storeFileSize}"></td>
                                             <td th:text="${key.memStoreSize}"></td>
                                             <td th:text="${#dates.format(key.timestamp, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                         </tr>

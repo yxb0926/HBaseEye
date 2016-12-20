@@ -7,15 +7,12 @@ Email:  yxb0926@163.com
 '''
 
 import multiprocessing
-from multiprocessing import Process
 import sys
 import util.utils
 import os
 import time
 import serverTag
-import urllib2
-import json
-from pymongo import *
+from conf.parseconf import *
 
 
 class Region(multiprocessing.Process):
@@ -24,25 +21,27 @@ class Region(multiprocessing.Process):
     mongodbConf = None
     serverTag   = None
     
-    def __init__(self, hregionConf, mongodbconf):
+    def __init__(self):
         multiprocessing.Process.__init__(self)
-        self.hregionConf = hregionConf
-        self.mongodbConf = mongodbconf
-        self.interval    = (int)(hregionConf['interval'][0])
-        self.serverTag = serverTag.tagdict
+        conf = ParseConf()
+        self.hregionConf = conf.getHregion()
+        self.mongodbConf = conf.getMongodb()
+        self.interval    = (int)(self.hregionConf['interval'][0])
+        self.serverTag   = serverTag.tagdict
+        self.start()
 
     def run(self):
         p = None
         plist = []
         for server in self.hregionConf['serverlist']:
             p = multiprocessing.Process(target=self.request,\
-                                        args=(server, self.serverTag, self.interval,))
+                                        args=(server, self.serverTag,))
             p.start()
             plist.append(p)
         for x in plist:
             x.join()
 
-    def request(self, server, tag, interval):
+    def request(self, server, tag):
         while True:
             url  = "http://"
             url += server
@@ -51,10 +50,10 @@ class Region(multiprocessing.Process):
             tools = util.utils.Utils()
 
             regionServer_v1 = tools.getMetrics(url, tag['RegionServer'])
-            #jvmMetrics_v1   = tools.getMetrics(url, tag['JvmMetrics'])
+            jvmMetrics_v1   = tools.getMetrics(url, tag['JvmMetrics'])
             WAL_v1          = tools.getMetrics(url, tag['WAL'])
 
-            time.sleep(interval)
+            time.sleep(self.interval)
             regionServer_v2  = tools.getMetrics(url, tag['RegionServer'])
             jvmMetrics_v2    = tools.getMetrics(url, tag['JvmMetrics'])
             WAL_v2           = tools.getMetrics(url, tag['WAL'])
@@ -67,7 +66,7 @@ class Region(multiprocessing.Process):
             if (jvmMetrics_v2 is None):
                 pass
             else:
-                self.JvmMetrics(jvmMetrics_v2)
+                self.JvmMetrics(jvmMetrics_v1, jvmMetrics_v2)
             
             if (WAL_v1 is None or WAL_v2 is None):
                 pass
@@ -114,30 +113,40 @@ class Region(multiprocessing.Process):
         tools.insertMongo(rsfmdict, 'regionrsfmInfo', self.mongodbConf)
 
 
-    def JvmMetrics(self, v):
+    def JvmMetrics(self, v1, v2):
         t = int(1000*round(time.time()))
         mydict = {}
         mydict['timestamp'] = t
-        mydict['hostname']                        = v['tag.Hostname']
-        mydict['MemNonHeapUsedM']                 = [t, v['MemNonHeapUsedM']]
-        mydict['MemNonHeapCommittedM']            = [t, v['MemNonHeapCommittedM']]
-        mydict['MemNonHeapMaxM']                  = [t, v['MemNonHeapMaxM']]
-        mydict['MemHeapUsedM']                    = [t, v['MemHeapUsedM']]
-        mydict['MemHeapCommittedM']               = [t, v['MemHeapCommittedM']]
-        mydict['MemHeapMaxM']                     = [t, v['MemHeapMaxM']]
-        mydict['MemMaxM']                         = [t, v['MemMaxM']]
-        mydict['GcCountParNew']                   = [t, v['GcCountParNew']]
-        mydict['GcTimeMillisParNew']              = [t, v['GcTimeMillisParNew']]
-        mydict['GcCountConcurrentMarkSweep']      = [t, v['GcCountConcurrentMarkSweep']]
-        mydict['GcTimeMillisConcurrentMarkSweep'] = [t, v['GcTimeMillisConcurrentMarkSweep']]
-        mydict['GcCount']                         = [t, v['GcCount']]
-        mydict['GcTimeMillis']                    = [t, v['GcTimeMillis']]
-        mydict['ThreadsNew']                      = [t, v['ThreadsNew']]
-        mydict['ThreadsRunnable']                 = [t, v['ThreadsRunnable']]
-        mydict['ThreadsBlocked']                  = [t, v['ThreadsBlocked']]
-        mydict['ThreadsWaiting']                  = [t, v['ThreadsWaiting']]
-        mydict['ThreadsTimedWaiting']             = [t, v['ThreadsTimedWaiting']]
-        mydict['ThreadsTerminated']               = [t, v['ThreadsTerminated']]
+        mydict['hostname']                        = v2['tag.Hostname']
+        mydict['MemNonHeapUsedM']                 = [t, v2['MemNonHeapUsedM']]
+        mydict['MemNonHeapCommittedM']            = [t, v2['MemNonHeapCommittedM']]
+        mydict['MemNonHeapMaxM']                  = [t, v2['MemNonHeapMaxM']]
+        mydict['MemHeapUsedM']                    = [t, v2['MemHeapUsedM']]
+        mydict['MemHeapCommittedM']               = [t, v2['MemHeapCommittedM']]
+        mydict['MemHeapMaxM']                     = [t, v2['MemHeapMaxM']]
+        mydict['MemMaxM']                         = [t, v2['MemMaxM']]
+        ## Young GC 累计次数
+        mydict['GcCountParNew']                   = [t, v2['GcCountParNew']]
+        ## Young GC 累计时间(毫秒)
+        mydict['GcTimeMillisParNew']              = [t, v2['GcTimeMillisParNew']]
+
+        mydict['GcCountConcurrentMarkSweep']      = [t, v2['GcCountConcurrentMarkSweep']]
+        mydict['GcTimeMillisConcurrentMarkSweep'] = [t, (v2['GcTimeMillisConcurrentMarkSweep'] - v1['GcTimeMillisConcurrentMarkSweep'])/self.interval]
+        ## Young GC 和Full GC的总和
+        mydict['GcCount']                         = [t, v2['GcCount']]
+        mydict['GcTimeMillis']                    = [t, v2['GcTimeMillis']]
+
+        ## Full GC 统计
+        mydict['GcFullCount']                     = [t, v2['GcCount'] - v2['GcCountParNew']]
+        mydict['GcFullTimeMillis']                = [t, v2['GcTimeMillis'] -v2['GcTimeMillisParNew']]
+
+
+        mydict['ThreadsNew']                      = [t, v2['ThreadsNew']]
+        mydict['ThreadsRunnable']                 = [t, v2['ThreadsRunnable']]
+        mydict['ThreadsBlocked']                  = [t, v2['ThreadsBlocked']]
+        mydict['ThreadsWaiting']                  = [t, v2['ThreadsWaiting']]
+        mydict['ThreadsTimedWaiting']             = [t, v2['ThreadsTimedWaiting']]
+        mydict['ThreadsTerminated']               = [t, v2['ThreadsTerminated']]
 
         tools = util.utils.Utils()
         tools.insertMongo(mydict, 'reginJvmMetrics', self.mongodbConf)

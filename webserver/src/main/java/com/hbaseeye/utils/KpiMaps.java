@@ -51,6 +51,8 @@ public class KpiMaps {
         tagRegionMap.put("ThreadsTimedWaiting", new TableFiledsMap("reginJvmMetrics", "ThreadsTimedWaiting"));
         tagRegionMap.put("MemMaxM", new TableFiledsMap("reginJvmMetrics", "MemMaxM"));
         tagRegionMap.put("MemNonHeapUsedM", new TableFiledsMap("reginJvmMetrics", "MemNonHeapUsedM"));
+        tagRegionMap.put("GcFullCount", new TableFiledsMap("reginJvmMetrics", "GcFullCount"));
+        tagRegionMap.put("GcFullTimeMillis", new TableFiledsMap("reginJvmMetrics", "GcFullTimeMillis"));
 
     }
 

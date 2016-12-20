@@ -12,15 +12,19 @@ import ConfigParser
 
 
 class ParseConf:
-    confile  = ""
     hmaster  = {}
     hregion  = {}
     thrift2  = {}
     mongodb  = {}
     conflist = {}
+    confile = os.getcwd() + "/conf/client.conf"
 
+    '''
     def __init__(self, confile):
         self.confile = confile
+    '''
+    def __init__(self):
+        self.parse()
 
     def parse(self):
         if self.__is_file_exist(self.confile):

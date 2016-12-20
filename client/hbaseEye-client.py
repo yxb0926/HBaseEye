@@ -11,26 +11,16 @@ import os
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-import conf.parseconf
-import hregion.region
-import hmaster.master
+from hregion.region import *
+from hmaster.master import *
+from cron.cron import *
 import util.utils
-import cron.cron
 
 
 def main():
-    confile = os.getcwd() + "/conf/client.conf"
-
-    parseConf = conf.parseconf.ParseConf(confile)
-    parseConf.parse()
-
-    parseConf.getHregion()
-
-
-    threadRegion = hregion.region.Region(parseConf.getHregion(),  parseConf.getMongodb())
-    threadMaster = hmaster.master.Master(parseConf.getHmaster(),  parseConf.getMongodb())
-    
-    threadCron   = cron.cron.Cron(parseConf.getMongodb())
+    threadMaster = Master()
+    threadRegion = Region()
+    threadCron   = Cron()
 
     threadRegion.daemon = True
     threadRegion.start()

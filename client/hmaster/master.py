@@ -7,6 +7,7 @@ from multiprocessing import Process
 import serverTag
 import util.utils
 import time
+from conf.parseconf import *
 
 class Master(multiprocessing.Process):
     hMasterConf = None
@@ -14,12 +15,13 @@ class Master(multiprocessing.Process):
     mongodbConf = None
     serverTag   = None
 
-    def __init__(self, hmasterconf, mongodbconf):
+    def __init__(self):
         multiprocessing.Process.__init__(self)
-        self.hMasterConf = hmasterconf
-        self.mongodbConf = mongodbconf
-        self.interval    = (int)(hmasterconf['interval'][0])
-        self.serverTag = serverTag.tagdict
+        conf = ParseConf()
+        self.hMasterConf = conf.getHmaster()
+        self.mongodbConf = conf.getMongodb()
+        self.interval    = (int)(self.hMasterConf['interval'][0])
+        self.serverTag   = serverTag.tagdict
 
         
     def run(self):
@@ -27,14 +29,14 @@ class Master(multiprocessing.Process):
         plist = []
         for server in self.hMasterConf['serverlist']:
             p = multiprocessing.Process(target=self.request, \
-                                        args=(server, self.serverTag, self.interval,))
+                                        args=(server, self.serverTag,))
             p.start()
             plist.append(p)
 
         for x in plist:
             x.join()
 
-    def request(self, server, tag, interval):
+    def request(self, server, tag):
         while True:
             url  = "http://"
             url += server
@@ -44,7 +46,7 @@ class Master(multiprocessing.Process):
             masterServer = tools.getMetrics(url, tag['MasterServer'])
             masterJvm    = tools.getMetrics(url, tag['MasterJvm'])
 
-            time.sleep(interval)
+            time.sleep(self.interval)
 
             self.masterInfo(masterServer)
             self.jvmMetrics(masterJvm)

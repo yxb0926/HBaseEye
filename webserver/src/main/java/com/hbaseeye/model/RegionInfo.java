@@ -20,6 +20,15 @@ public class RegionInfo {
     int    regionCount;
     int    storeFileCount;
     int    memStoreSize;
+    int    storeFileSize;
+
+    public int getStoreFileSize() {
+        return storeFileSize;
+    }
+
+    public void setStoreFileSize(int storeFileSize) {
+        this.storeFileSize = storeFileSize;
+    }
 
     public int getStoreFileCount() {
         return storeFileCount;
