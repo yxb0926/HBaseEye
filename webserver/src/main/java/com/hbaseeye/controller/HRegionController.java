@@ -29,6 +29,14 @@ public class HRegionController {
         List regionInfo = hRegionServerService.getRegionInfo();
         modelAndView.addObject("hregioninfo", regionInfo);
 
+        DateTime dateTime = new DateTime();
+        String startTime = dateTime.getTimeStr(6*60);  //6小时前时间
+        String endTime = dateTime.getTimeStr(0);
+
+        modelAndView.addObject("startTime", startTime);
+        modelAndView.addObject("endTime",   endTime);
+
+
         return modelAndView;
     }
 

@@ -54,6 +54,16 @@ public class KpiMaps {
         tagRegionMap.put("GcFullCount", new TableFiledsMap("reginJvmMetrics", "GcFullCount"));
         tagRegionMap.put("GcFullTimeMillis", new TableFiledsMap("reginJvmMetrics", "GcFullTimeMillis"));
 
+        tagRegionMap.put("AppendSize_num_ops", new TableFiledsMap("reginWALMetrics", "AppendSize_num_ops"));
+        tagRegionMap.put("appendCount", new TableFiledsMap("reginWALMetrics", "appendCount"));
+        tagRegionMap.put("rollRequest", new TableFiledsMap("reginWALMetrics", "rollRequest"));
+        tagRegionMap.put("SyncTime_median", new TableFiledsMap("reginWALMetrics", "SyncTime_median"));
+        tagRegionMap.put("AppendTime_num_ops", new TableFiledsMap("reginWALMetrics", "AppendTime_num_ops"));
+        tagRegionMap.put("SyncTime_num_ops", new TableFiledsMap("reginWALMetrics", "SyncTime_num_ops"));
+        tagRegionMap.put("AppendSize_median", new TableFiledsMap("reginWALMetrics", "AppendSize_median"));
+        tagRegionMap.put("AppendTime_median", new TableFiledsMap("reginWALMetrics", "AppendTime_median"));
+        tagRegionMap.put("slowAppendCount", new TableFiledsMap("reginWALMetrics", "slowAppendCount"));
+
     }
 
     static {

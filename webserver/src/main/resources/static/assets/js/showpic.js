@@ -32,7 +32,6 @@ function showimg(obj, type){
             dataType: 'json',
             success: function(result){
                 drawpics(kpi, result);
-                console.log(result);
             }
         });
 
@@ -80,7 +79,6 @@ function showimg(obj, type){
                 series:{ lineWidth:1 }
             },
             series: [{
-                name:"xx",
                 data: data
             }]
         })

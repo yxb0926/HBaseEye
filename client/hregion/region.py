@@ -153,5 +153,20 @@ class Region(multiprocessing.Process):
 	
 
     def WAL(self, v1, v2):
-        pass
+        t = int(1000*round(time.time()))
+        mydict = {}
+        mydict['timestamp'] = t
+        mydict['hostname']  = v2['tag.Hostname']
+        mydict['rollRequest']        = [t, (v2['rollRequest'] - v1['rollRequest'])/self.interval]
+        mydict['SyncTime_num_ops']   = [t, (v2['SyncTime_num_ops'] - v1['SyncTime_num_ops'])/self.interval]
+        mydict['SyncTime_median']    = [t, (v2['SyncTime_median'] - v1['SyncTime_median'])/self.interval]
+        mydict['AppendSize_num_ops'] = [t, (v2['AppendSize_num_ops'] - v1['AppendSize_num_ops'])/self.interval]
+        mydict['AppendSize_median']  = [t, (v2['AppendSize_median'] - v1['AppendSize_median'])/self.interval]
+        mydict['AppendTime_num_ops'] = [t, (v2['AppendTime_num_ops'] - v1['AppendTime_num_ops'])/self.interval]
+        mydict['AppendTime_median']  = [t, (v2['AppendTime_median'] - v1['AppendTime_median'])/self.interval]
+        mydict['slowAppendCount']    = [t, (v2['slowAppendCount'] - v1['slowAppendCount'])/self.interval]
+        mydict['appendCount']        = [t, (v2['appendCount'] - v1['appendCount'])/self.interval]
+        
+        tools = util.utils.Utils()
+        tools.insertMongo(mydict, 'reginWALMetrics', self.mongodbConf)
 
