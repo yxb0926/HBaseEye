@@ -52,69 +52,75 @@ class Master(multiprocessing.Process):
             self.jvmMetrics(masterJvm)
 
     def masterInfo(self, value):
-        tools = util.utils.Utils()
-        t = int(1000*round(time.time()))
+        try:
+            tools = util.utils.Utils()
+            t = int(1000*round(time.time()))
 
-        mydict = {}
-        mydict['timestamp']            = t
-        mydict['serverName']           = value['tag.serverName']
-        mydict['clusterId']            = value['tag.clusterId']
-        mydict['hostname']             = value['tag.Hostname']
-        mydict['isActiveMaster']       = value['tag.isActiveMaster']
-        mydict['role']                 = value['tag.Context']
-        mydict['masterActiveTime']     = value['masterActiveTime']
-        mydict['masterStartTime']      = value['masterStartTime']
-        mydict['numRegionServers']     = value['numRegionServers']
-        mydict['numDeadRegionServers'] = value['numDeadRegionServers']
-        mydict['clusterRequests']      = value['clusterRequests']
+            mydict = {}
+            mydict['timestamp']            = t
+            mydict['serverName']           = value['tag.serverName']
+            mydict['clusterId']            = value['tag.clusterId']
+            mydict['hostname']             = value['tag.Hostname']
+            mydict['isActiveMaster']       = value['tag.isActiveMaster']
+            mydict['role']                 = value['tag.Context']
+            mydict['masterActiveTime']     = value['masterActiveTime']
+            mydict['masterStartTime']      = value['masterStartTime']
+            mydict['numRegionServers']     = value['numRegionServers']
+            mydict['numDeadRegionServers'] = value['numDeadRegionServers']
+            mydict['clusterRequests']      = value['clusterRequests']
 
-        serverdict = {}
-        serverdict['timestamp']        = t
-        if value['tag.isActiveMaster'] == 'true':
-            liveRegionServer = value['tag.liveRegionServers'].split(";")
-            for server in liveRegionServer:
-                serverdict['serverName'] = server
-                serverdict['hostname']   = self._getHostNameFromServerName(server)
-                serverdict['liveRegionServer'] = 'Live'
-
-                tools.upsertMongo(serverdict, 'regionInfoTmp', self.mongodbConf)
-
-            if value['tag.deadRegionServers'] != None and value['tag.deadRegionServers'] != '':
-                deadRegionserver = value['tag.deadRegionServers'].split(";")
-                for server in deadRegionserver:
+            serverdict = {}
+            serverdict['timestamp']        = t
+            if value['tag.isActiveMaster'] == 'true':
+                liveRegionServer = value['tag.liveRegionServers'].split(";")
+                for server in liveRegionServer:
                     serverdict['serverName'] = server
                     serverdict['hostname']   = self._getHostNameFromServerName(server)
-                    serverdict['liveRegionServer'] = 'Dead'
+                    serverdict['liveRegionServer'] = 'Live'
 
                     tools.upsertMongo(serverdict, 'regionInfoTmp', self.mongodbConf)
 
-        tools.upsertMongo(mydict, 'masterInfo', self.mongodbConf)
+                if value['tag.deadRegionServers'] != None and value['tag.deadRegionServers'] != '':
+                    deadRegionserver = value['tag.deadRegionServers'].split(";")
+                    for server in deadRegionserver:
+                        serverdict['serverName'] = server
+                        serverdict['hostname']   = self._getHostNameFromServerName(server)
+                        serverdict['liveRegionServer'] = 'Dead'
+
+                        tools.upsertMongo(serverdict, 'regionInfoTmp', self.mongodbConf)
+
+            tools.upsertMongo(mydict, 'masterInfo', self.mongodbConf)
+        except:
+            print "get data faild"
 
     
     def jvmMetrics(self, value):
-        t = int(1000*round(time.time()))
+        try:
+            t = int(1000*round(time.time()))
 
-        mydict = {}
-        mydict['timestamp']                       = t
-        mydict['hostname']                        = value['tag.Hostname']
-        mydict['role']                            = value['tag.ProcessName']
-        mydict['MemNonHeapUsedM']                 = [t, value['MemNonHeapUsedM']]
-        mydict['MemNonHeapCommittedM']            = [t, value['MemNonHeapCommittedM']]
-        mydict['GcCountParNew']                   = [t, value['GcCountParNew']]
-        mydict['GcTimeMillisParNew']              = [t, value['GcTimeMillisParNew']]
-        mydict['GcCountConcurrentMarkSweep']      = [t, value['GcCountConcurrentMarkSweep']]
-        mydict['GcTimeMillisConcurrentMarkSweep'] = [t, value['GcTimeMillisConcurrentMarkSweep']]
-        mydict['GcCount']                         = [t, value['GcCount']]
-        mydict['GcTimeMillis']                    = [t, value['GcTimeMillis']]
-        mydict['ThreadsNew']                      = [t, value['ThreadsNew']]
-        mydict['ThreadsRunnable']                 = [t, value['ThreadsRunnable']]
-        mydict['ThreadsBlocked']                  = [t, value['ThreadsBlocked']]
-        mydict['ThreadsWaiting']                  = [t, value['ThreadsWaiting']]
-        mydict['ThreadsTimedWaiting']             = [t, value['ThreadsTimedWaiting']]
-        mydict['ThreadsTerminated']               = [t, value['ThreadsTerminated']]
-        
-        tools = util.utils.Utils()
-        tools.insertMongo(mydict, 'masterJvmMetrics', self.mongodbConf)
+            mydict = {}
+            mydict['timestamp']                       = t
+            mydict['hostname']                        = value['tag.Hostname']
+            mydict['role']                            = value['tag.ProcessName']
+            mydict['MemNonHeapUsedM']                 = [t, value['MemNonHeapUsedM']]
+            mydict['MemNonHeapCommittedM']            = [t, value['MemNonHeapCommittedM']]
+            mydict['GcCountParNew']                   = [t, value['GcCountParNew']]
+            mydict['GcTimeMillisParNew']              = [t, value['GcTimeMillisParNew']]
+            mydict['GcCountConcurrentMarkSweep']      = [t, value['GcCountConcurrentMarkSweep']]
+            mydict['GcTimeMillisConcurrentMarkSweep'] = [t, value['GcTimeMillisConcurrentMarkSweep']]
+            mydict['GcCount']                         = [t, value['GcCount']]
+            mydict['GcTimeMillis']                    = [t, value['GcTimeMillis']]
+            mydict['ThreadsNew']                      = [t, value['ThreadsNew']]
+            mydict['ThreadsRunnable']                 = [t, value['ThreadsRunnable']]
+            mydict['ThreadsBlocked']                  = [t, value['ThreadsBlocked']]
+            mydict['ThreadsWaiting']                  = [t, value['ThreadsWaiting']]
+            mydict['ThreadsTimedWaiting']             = [t, value['ThreadsTimedWaiting']]
+            mydict['ThreadsTerminated']               = [t, value['ThreadsTerminated']]
+            
+            tools = util.utils.Utils()
+            tools.insertMongo(mydict, 'masterJvmMetrics', self.mongodbConf)
+        except:
+            print "get data failed"
 
 
     def _getHostNameFromServerName(self, serverName):
