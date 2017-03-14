@@ -54,7 +54,7 @@ def main():
 
     # 改成你的master对应的端口
     port = 50070
-    timeout = 100
+    timeout = 10
     uri = "/jmx?qry=Hadoop:service=NameNode,name=NameNodeInfo"
 
     hdfsM = HdfsMonitor(host, port, timeout, uri)

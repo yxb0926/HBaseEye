@@ -37,7 +37,7 @@ class HbaseMonitor:
                 data =  json.loads(content)
                 return 0, data['beans'][0]
             else:
-                out = "Get The Hadoop HDFS Status Failed."
+                out = "Get Hbase or HDFS Status Failed."
                 print out
                 return 1, out
 
@@ -53,7 +53,7 @@ class HbaseMonitor:
     def getData(self):
         code, data = self._getStat()
         if code == 1:
-            for i in range(1, 3):
+            for i in range(2, 3):
                 print "The %s times for check" % i
                 time.sleep(30)
                 code, data = self._getStat()
@@ -64,7 +64,7 @@ class HbaseMonitor:
             errmsg = "Get The Hadoop HDFS Status Failed."
             print errmsg
 
-            self.alerm(errmsg)
+            self.alarm(errmsg)
             os._exit(404)
         else:
             return data

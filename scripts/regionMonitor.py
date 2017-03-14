@@ -31,7 +31,7 @@ def main():
 
     # 改成你的master web server的端口
     port = 16010
-    timeout = 100
+    timeout = 10
     uri = "/jmx?qry=Hadoop:service=HBase,name=Master,sub=Server"
 
     regionM = RegionMonitor(host, port, timeout, uri)
