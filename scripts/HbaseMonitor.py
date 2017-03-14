@@ -108,7 +108,7 @@ class HbaseMonitor:
 
         # 改成你的邮件地址及对应的密码
         mailUser = 'yuanxiaobin@oneniceapp.com'
-        mailPass = 'xxxxxxxxxxx'
+        mailPass = 'xxxxxxxxxxxxxx'
 
         # 改成你的邮箱地址
         mailTo = ['op@oneniceapp.com']

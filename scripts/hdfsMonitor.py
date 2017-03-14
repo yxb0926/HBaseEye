@@ -9,6 +9,7 @@
 
 import HbaseMonitor
 import json
+import os
 
 class HdfsMonitor(HbaseMonitor.HbaseMonitor):
     def checkHealth(self, data):
@@ -43,6 +44,8 @@ class HdfsMonitor(HbaseMonitor.HbaseMonitor):
 
         if len(error)>0:
             return error
+        else:
+            os._exit(0)
 
 
 def main():
