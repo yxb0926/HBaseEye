@@ -11,7 +11,7 @@
 </pre>
 
 #### 注意事项：
-要使用该脚步，你需要修改几个地方。
+要使用该脚本，你需要修改几个地方。
 
 - 修改hdfsMonitor.py 和 regionMonitor.py 中main()函数的host|port 值为你服务器的值；
 - 修改HbaseMonitor.py中sedMail()和sedMsg()函数中邮箱地址、密码为你的邮箱地址及密码。sedMsg()可能需要改为你的短信接口。

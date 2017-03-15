@@ -6,8 +6,6 @@
 # email: yxb0926@163.com
 #
 
-
-
 import HbaseMonitor
 import os
 
@@ -36,8 +34,11 @@ def main():
 
     regionM = RegionMonitor(host, port, timeout, uri)
     data = regionM.getData()
-    msg  = regionM.checkHealth(data)
-    regionM.alarm(msg)
+    if data == 404:
+        regionM.alarm("Get Region Info Faild.")
+    else:
+        msg  = regionM.checkHealth(data)
+        regionM.alarm(msg)
 
 if __name__ == "__main__":
     main()

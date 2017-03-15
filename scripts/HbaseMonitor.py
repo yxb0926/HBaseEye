@@ -61,11 +61,7 @@ class HbaseMonitor:
                     continue
                 else:
                     return data
-            errmsg = "Get The Hadoop HDFS Status Failed."
-            print errmsg
-
-            self.alarm(errmsg)
-            os._exit(404)
+            return 404
         else:
             return data
 

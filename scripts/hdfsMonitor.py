@@ -59,8 +59,12 @@ def main():
 
     hdfsM = HdfsMonitor(host, port, timeout, uri)
     data = hdfsM.getData()
-    msg = hdfsM.checkHealth(data)
-    hdfsM.alarm(msg)
+    if data == 404:
+        hdfsM.alarm("Get HDFS Info Faild.")
+        os._exit(404)
+    else:
+        msg = hdfsM.checkHealth(data)
+        hdfsM.alarm(msg)
 
 
 if __name__ == "__main__":
